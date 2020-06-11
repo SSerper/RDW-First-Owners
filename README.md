@@ -1,5 +1,5 @@
 # RDW-First-Owners
-Extracts first owners of cars from the RDW site
+Extracts first owners of cars from the Dutch RDW site
 
 Some pre conditions and have-to-knows:
 - Tested with Python 2.7 on a Windows 10 machine
