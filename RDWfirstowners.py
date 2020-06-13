@@ -33,6 +33,7 @@ while z < numPages:
       kdata = nr.content.split('\n')
       d1 = ""
       d2 = ""
+      d3 = "" ;# manufacturing date
       
       # extract the relevant dates
       for nline in kdata:
@@ -42,10 +43,13 @@ while z < numPages:
         if (nline.find(kenteken_aanvang) != -1):
           d2 = kdata[i+2].strip()
           #print('  Datum aanvang tenaamstelling   : ' + d2)
+        if (nline.find("Bouwjaar") != -1):
+          d3 = kdata[i+2].strip().split('>')[1].split('<')[0]
+          #print('  Datum aanvang tenaamstelling   : ' + d2)
         i = i+1
   
       # do they match? then 1st owner found
-      if (d1 == d2):
+      if (d1 == d2) and (d3 == d1.split('>')[1].split('<')[0].split('-')[-1]):
         print('  First owner on ' + d1 + ', nr ' + str(len(tot)+1))
         sys.stdout.flush()
         tot.append(kenteken + ' @ ' + d1.split('>')[1].split('<')[0])
