@@ -2,7 +2,8 @@
 Extracts first owners of cars from the Dutch RDW site
 
 ## Some pre conditions and have-to-knows:
-- Tested with Python 2.7 on a Windows 10 machine
+- Tested & created with Python 2.7.14 on a Windows 10 machine
+- Using gtk library v2.22.1 & PyGtk library v2.22.0
 - Script outputs progress on the GUI, when finished user can order a summary via the File-menu. 
 - This script is created out of curiousity, to compare the effort to develop it against my old-time favorite scripting language tcl/tk
 
