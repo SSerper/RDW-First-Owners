@@ -12,7 +12,7 @@ Extracts first owners of cars from the Dutch RDW site
 - User can define a different car brand & model from the Options menu
 - Color coding of detected first owners during extraction
 - An extraction can be initiated from the menu or the play/stop button next to the progressbar.
-- Script is not (yet) able to dynamically determine the number of pages for different brand/models, currently fixed to 2 (update commencing soon)
+- Script v1.1 is able to dynamically determine the number of pages for different brand/models
 
 ## This Release
 This version has a GUI to follow and control the extraction progress. It's a quick and dirty implementation, so bear with me as I am also still learning the ins & outs of Python...
