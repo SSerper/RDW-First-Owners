@@ -5,7 +5,7 @@
 # Author            : Sedat Serper
 # Creation Date     : 12-06-2020
 # Modification Date : 14-06-2020
-# Version           : 1.0
+# Version           : 1.1
 # Description       : GUI to extract first-time owners of cars as registered at RDW site
 # Input             : -
 # Output            : on-screen progress
