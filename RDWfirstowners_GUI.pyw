@@ -36,6 +36,7 @@ ToolVersion       = "1.0"
 programFont       = 'Consolas 11'
 mainUrl           = "https://www.rdwdata.nl/merken/"
 carUrl            = mainUrl + "subaru/impreza+gt+turbo+awd/"
+numPages          = 2
 toplevel          = None
 IdleTxt           = "Idle..."
 bizzyTxt          = "Bizzy..."
@@ -330,22 +331,44 @@ def printTxt(ptext, resetFirst=False):
     gtk.main_iteration_do(True)  
   # now scroll using mark
   textview.scroll_to_mark(text_mark_end, 0, False, 0, 0)
-  
+
+# ------------------------------------------------------------------------------
+def determineNrPages():
+  printTxt("Checking number of pages...", True)
+  r = requests.get(carUrl, allow_redirects=True)
+  ret = 1
+  k = 0
+  data = r.content.split('\n')
+  for line in data:
+    if (line.find(">pagina:<") != -1):
+      z = 1
+      k=k+1
+      while (data[k].strip() != "") and (data[k].find("merken/") != -1):
+        z=z+1
+        k=k+1
+      ret = z
+      break
+    k=k+1
+  printTxt("Found a total of " + str(ret) + " page(s) to scan...\n")
+  return ret
+
 # ------------------------------------------------------------------------------
 def extractCarOwners():
   global extrResults
   global sBar
   global carUrl
   global guiStatus
+  global numPages
   
   guiStatus = bizzyTxt
   extrResults = ""
+
+  numPages = determineNrPages()
   
   # -- constants and variables -------------------------------------------------
   kentekens_start         = '<li><a href="https://www.rdwdata.nl/kenteken/'
   kenteken_eerste_afgifte = 'Datum eerste afgifte Nederland'
   kenteken_aanvang        = 'Datum aanvang tenaamstelling'
-  numPages                = 2
   tot = [] ;# all 1st owners
   j = 0    ;# count number of registered owners
   z = 0    ;# URL page ID
@@ -363,7 +386,7 @@ def extractCarOwners():
         break
       if (line.find(kentekens_start) != -1):
         j=j+1
-        sBar.push(0, "Processing page " + str(z) + ', plate number ' + str(j))
+        sBar.push(0, "Processing page " + str(z) + ' out of ' + str(numPages) + ', plate number ' + str(j))
         nurl = line.split('"')[1]
         kenteken = nurl.split('/')[-1]
         printTxt('Checking license-plate ' + kenteken)
@@ -446,9 +469,11 @@ def menuResponse(data):
       if guiStatus != IdleTxt:
         mbox(Self.window, "Extraction Interrupt", "An extraction is already active\nPlease try again later...")
       else:
+        plyImage.set_from_stock(gtk.STOCK_MEDIA_STOP, gtk.ICON_SIZE_MENU)
         extractCarOwners()
       break
     if case(4):
+      plyImage.set_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU)
       guiStatus = IdleTxt
       break
     break
@@ -469,12 +494,14 @@ def verifyTheCarUrl(url):
 # ------------------------------------------------------------------------------
 def verifyUrl(data=""):
   global urlentry
+  global carUrl
+  
   Parent = getActiveGtkWindow()
   url = mainUrl + urlentry.get_text()
   if verifyTheCarUrl(url) == 0:
     mbox(toplevel, Title="URL access failed", msg="url does not exist or not a valid brand-page?")
   else:
-    carUrl = url
+    carUrl = url.strip('/') + '/'
     printTxt('\nBrand : ' + url.split("/")[-2].upper())
     printTxt('Model : ' + url.split("/")[-1])
     Parent.destroy()
@@ -616,10 +643,8 @@ def toggleExtraction(data):
   global plyImage
   
   if guiStatus != IdleTxt:
-    plyImage.set_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU)
     menuResponse(4)
   else:
-    plyImage.set_from_stock(gtk.STOCK_MEDIA_STOP, gtk.ICON_SIZE_MENU)
     menuResponse(3)
 
 # ------------------------------------------------------------------------------
