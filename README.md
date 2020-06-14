@@ -10,3 +10,5 @@ Some pre conditions and have-to-knows:
 This script has a standard BSD license, would be nice to refer to my name if you use it.
 
 The limiations of the first branch-release has been fixed/updated. Now, an additional compare against the manufacturing date is performed to extract the real "FIRST-TIME" owner of the car.
+
+This version has a GUI to follow and control the extraction progress. It's a quick and dirty implementation, so bear with me as I am also still learning the ins & outs of Python...
