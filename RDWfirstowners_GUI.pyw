@@ -32,7 +32,7 @@ import pyperclip
 
 # - main globals here -------------------------------------------------------------
 progTitle         = "RDW First Owner v"
-ToolVersion       = "1.0"
+ToolVersion       = "1.1"
 programFont       = 'Consolas 11'
 mainUrl           = "https://www.rdwdata.nl/merken/"
 carUrl            = mainUrl + "subaru/impreza+gt+turbo+awd/"
